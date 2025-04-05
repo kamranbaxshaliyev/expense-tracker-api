@@ -31,6 +31,9 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 RUN mkdir -p storage && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage
 
+# Run migrations
+RUN php artisan migrate --force
+
 # Expose port
 EXPOSE 80
 
