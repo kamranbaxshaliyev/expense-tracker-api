@@ -15,6 +15,12 @@ WORKDIR /var/www/html
 # Copy project files
 COPY . .
 
+# Change Apache's DocumentRoot to /var/www/html/public
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+
+# Also ensure mod_rewrite is enabled (already in your Dockerfile)
+RUN a2enmod rewrite
+
 # Copy Composer from a separate layer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
