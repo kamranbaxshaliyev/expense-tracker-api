@@ -14,3 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/migrate', function () {
+    // Run migrations
+    try {
+        Artisan::call('migrate', ['--force' => true]);
+        return response()->json(['message' => 'Migrations ran successfully.'], 200);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Migrations failed', 'message' => $e->getMessage()], 500);
+    }
+});
