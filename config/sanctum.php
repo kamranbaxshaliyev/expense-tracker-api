@@ -83,7 +83,6 @@ return [
     'cookie' => [
         'name' => 'XSRF-TOKEN',
         'same_site' => 'none', // Allow cross-site requests
-        'secure' => env('APP_ENV') === 'production', // Make sure this is set to true in production
     ],
 
 ];
