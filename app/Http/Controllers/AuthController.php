@@ -25,7 +25,13 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return response()->json(['message' => 'User created successfully', 'user' => $user], 201);
+        $token = $user->createToken('ExpenseTrackerApp')->plainTextToken;
+
+        return response()->json([
+            'message' => 'User created successfully',
+            'user'    => $user,
+            'token'   => $token,
+        ], 201);
     }
 
     // Login logic
@@ -45,6 +51,16 @@ class AuthController extends Controller
             'email' => ['The provided credentials are incorrect.'],
         ]);
     }
+    // Logout logic
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Logged out successfully'
+        ]);
+    }
+
 
     // Get authenticated user
     public function user(Request $request)
